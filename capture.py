@@ -15,15 +15,15 @@ from yt_dlp import YoutubeDL #Python class provided by yt-dlp library
 #Or use the Python time function?
 
 opts ={
-        'format': 'bv', #Only record in best video quality (does not include audio)
-        'postprocessors': [{ #This is what changes the file format from whatever it records in (I believe mp4 / WebM to mkv)
+        'format': 'bestvideo*+bestaudio/best', #Only record in best video quality without including audio if possible, but if not, record best audio and best video
+        'postprocessors': [{ #This is what changes the file format to mkv from mp4
             'key': 'FFmpegVideoRemuxer',
-            'preferedformat': 'mkv',
+            'preferedformat': 'mkv', 
         }],
+        'postprocessor_args': ['-an', '-c:v', 'copy'], #Drops audio track (-an) and copy the video codec (c:v copy)
         'outtmpl': '%(epoch)d',  #What the filename will be
+
     }
 ydl = YoutubeDL(opts) #Creating a yt_dlp object with options defined
 
 ydl.download("https://www.youtube.com/watch?v=p-Bc_NiCh9A") #Downloading RAMCAM livestream
-
-#Hello world comment from desktop
